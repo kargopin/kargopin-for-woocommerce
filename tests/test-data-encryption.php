@@ -42,4 +42,27 @@ class DataEncryption extends WP_UnitTestCase {
 		
 		$this->assertEquals( 'test-string', $original_plaintext );
 	}
+	
+	/**
+	 * Test the Data Decryption via KP\Storage\Data_Encryption
+	 *
+	 * @return void
+	 */
+	public function test_decrypt()
+	{
+		$data_encryption = new Data_Encryption();
+
+		$this->override_key($data_encryption);
+
+		// encrypt the text
+		$ivlen = openssl_cipher_iv_length($cipher="AES-128-CBC");
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $ciphertext_raw = openssl_encrypt('test-string', $cipher, 'test-key', $options=OPENSSL_RAW_DATA, $iv);
+        $hmac = hash_hmac('sha256', $ciphertext_raw, 'test-key', $as_binary=true);
+		$encrypted_text = base64_encode( $iv.$hmac.$ciphertext_raw );
+		
+		$decrypted_text = $data_encryption->decrypt( $encrypted_text );
+
+		$this->assertEquals( $decrypted_text, 'test-string' );
+	}
 }
