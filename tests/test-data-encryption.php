@@ -22,7 +22,12 @@ class DataEncryption extends WP_UnitTestCase {
 		$key_property->setAccessible(true);
 		$key_property->setValue( $data_encryption, 'test-key' );
 	}
-
+	
+	/**
+	 * Test the Data Encryption via KP\Storage\Data_Encryption
+	 *
+	 * @return void
+	 */
 	public function test_encrypt()
 	{
 		$data_encryption = new Data_Encryption();
