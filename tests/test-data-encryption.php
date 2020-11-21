@@ -8,16 +8,27 @@
  use KP\Storage\Data_Encryption;
 
 class DataEncryption extends WP_UnitTestCase {
+	
+	/**
+	 * Override the encryption key private property. 
+	 *
+	 * @param  mixed $data_encryption
+	 * @return void
+	 */
+	private function override_key( Data_Encryption $data_encryption )
+	{
+		$rc = new ReflectionClass( $data_encryption );
+		$key_property = $rc->getProperty('key');
+		$key_property->setAccessible(true);
+		$key_property->setValue( $data_encryption, 'test-key' );
+	}
 
 	public function test_encrypt()
 	{
 		$data_encryption = new Data_Encryption();
 
-		// override the encryption key private property.
-		$rc = new ReflectionClass( $data_encryption );
-		$key_property = $rc->getProperty('key');
-		$key_property->setAccessible(true);
-		$key_property->setValue( $data_encryption, 'test-key' );
+		$this->override_key($data_encryption);
+
 		$encrypted_text = $data_encryption->encrypt('test-string');
 
 		// decode the data
@@ -31,5 +42,4 @@ class DataEncryption extends WP_UnitTestCase {
 		
 		$this->assertEquals( 'test-string', $original_plaintext );
 	}
-
 }
