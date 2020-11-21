@@ -20,6 +20,11 @@
      define( 'WC_KARGOPIN_PLUGIN_FILE', __FILE__ );
  }
 
+ if( ! defined( 'WC_KARGOPIN_PATH' ) )
+ {
+     define( 'WC_KARGOPIN_PATH', plugin_dir_path( __FILE__ ) );
+ }
+
  if ( ! class_exists( 'WC_KargoPin' ) ) {
-     include_once dirname( WC_KARGOPIN_PLUGIN_FILE ) . '/includes/class-wc-kargopin.php';
+     include_once WC_KARGOPIN_PATH . '/includes/class-wc-kargopin.php';
  }
