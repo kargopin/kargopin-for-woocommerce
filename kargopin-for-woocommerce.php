@@ -12,6 +12,10 @@
 * WC tested up to: 4.7.0
  */
 
+ if ( ! defined( 'ABSPATH' ) ) {
+     exit;
+ }
+
  if ( ! defined( 'WC_KARGOPIN_PLUGIN_FILE' ) ) {
      define( 'WC_KARGOPIN_PLUGIN_FILE', __FILE__ );
  }
