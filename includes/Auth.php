@@ -24,7 +24,8 @@ class Auth {
         $_SESSION['state'] = $state = wp_generate_password( 40, false );
 
         $query = http_build_query([
-            'state' => $state
+            'state' => $state,
+            'site_url' => get_site_url()
         ]);
 
         return wp_redirect( API::get_base_url() . '/oauth/wp-credentials?'.$query);
