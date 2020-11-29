@@ -6,7 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+use KP\API;
 use KP\Storage\Credentials;
+use KP\Auth;
 
 class Navigation {
 
@@ -54,6 +56,9 @@ class Navigation {
      */
     function output_dashboard_callback()
     {
+        $update_status = null;
+        
+        // Update credentials form was submitted.
         if( $_POST && isset( $_POST['security'] ) 
             && wp_verify_nonce( $_POST['security'], 'update_kargopin_credentials' )
         ) {
@@ -61,6 +66,7 @@ class Navigation {
                 // save credentials
                 $credentials = new Credentials();
                 $credentials->client_id = sanitize_key( $_POST['client-id'] );
+                $credentials->client_secret = sanitize_text_field( $_POST['client-secret'] );
                 $credentials->app_key = sanitize_key( $_POST['app-key'] );
                 $update_status = $credentials->save();
             }else {
@@ -68,12 +74,23 @@ class Navigation {
             }
         }
 
-        $data = [
-            'credentials' => ( new Credentials() ),
-            'update_status' => $update_status
-        ];
+        // OAuth login button form submitted.
+        if( $_POST && isset( $_POST['security'] ) 
+            && wp_verify_nonce( $_POST['security'], 'kargopin_oauth_login' )
+        ) {
+            // start oauth redirect processes.
+            Auth::start_oauth();
+        }
 
-        $this->output( 'Dashboard', $data );
+        // get customer data from API service
+        $customer_data = API::get( '/api/v1/customer' );
+    
+        // print output
+        $this->output( 'Dashboard', [
+            'credentials' => ( new Credentials() ),
+            'update_status' => $update_status,
+            'customer_data' => $customer_data
+        ] );
     }
 }
 

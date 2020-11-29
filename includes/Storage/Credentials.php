@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Credentials {
 
     public $client_id;
+    public $client_secret;
     public $app_key;
     private $access_token;
     private $refresh_token;
@@ -33,6 +34,7 @@ class Credentials {
 
             // update properties
             $this->client_id = $credentials['client_id'];
+            $this->client_secret = $credentials['client_secret'];
             $this->app_key = $credentials['app_key'];
             $this->access_token = $credentials['access_token'];
             $this->refresh_token = $credentials['refresh_token'];
@@ -50,8 +52,9 @@ class Credentials {
         $credentials = ( new Data_Encryption() )->encrypt( 
             serialize([
                 'client_id' => $this->client_id,
+                'client_secret' => $this->client_secret,
                 'app_key' => $this->app_key,
-                'access_token' => $this->app_key,
+                'access_token' => $this->access_token,
                 'refresh_token' => $this->refresh_token,
                 'expires_at' => $this->expires_at
             ])
@@ -79,5 +82,58 @@ class Credentials {
     public function get_app_key()
     {
         return $this->app_key;
+    }
+    
+    /**
+     * get_client_secret
+     *
+     * @return void
+     */
+    public function get_client_secret()
+    {
+        return $this->client_secret;
+    }
+    
+    /**
+     * set_access_token
+     *
+     * @param  mixed $access_token
+     * @return void
+     */
+    public function set_access_token( $access_token )
+    {
+        $this->access_token = $access_token;
+    }
+    
+    /**
+     * set_refresh_token
+     *
+     * @param  mixed $refresh_token
+     * @return void
+     */
+    public function set_refresh_token( $refresh_token )
+    {
+        $this->refresh_token = $refresh_token;
+    }
+    
+    /**
+     * set_expires_at
+     *
+     * @param  mixed $expires_at
+     * @return void
+     */
+    public function set_expires_at( $expires_at )
+    {
+        $this->expires_at = $expires_at;
+    }
+    
+    /**
+     * get_access_token
+     *
+     * @return void
+     */
+    public function get_access_token()
+    {
+        return $this->access_token;
     }
 }
