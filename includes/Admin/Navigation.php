@@ -66,11 +66,13 @@ class Navigation {
 
         // get customer data from API service
         $customer_data = API::get( '/api/v1/customer' );
+        $customer_stats = API::get('/api/v1/customer/stats');
     
         // print output
         $this->output( 'Dashboard', [
             'credentials' => ( new Credentials() ),
-            'customer_data' => $customer_data
+            'customer_data' => $customer_data,
+            'customer_stats' => $customer_stats
         ] );
     }
 }

@@ -22,3 +22,38 @@
             <?php } ?>
         </p>
 </div>
+
+<?php if( $data['customer_data']['status'] == 200 ){ ?>
+    <h2><?php echo __( 'Shipment Tracking Usage Stats', 'kargopin-for-woocommerce' ); ?></h2>
+    <div class="card">
+        <?php
+            if( $data['customer_stats']['status'] == 200 ){
+        ?>
+        <?php
+            $usage_stats = $data['customer_stats']['data']->data->{"tracking-usages"}->totals;
+        ?>
+
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <b><?php echo __( 'Total Limit', 'kargopin-for-woocommerce' ); ?></b>
+                    <p><?php echo $usage_stats->total_value; ?></p>
+                </td>
+                <td>
+                    <b><?php echo __( 'Usage', 'kargopin-for-woocommerce' ); ?></b>
+                    <p><?php echo $usage_stats->usage; ?></p>
+                </td>
+                <td>
+                    <b><?php echo __( 'Remain', 'kargopin-for-woocommerce' ); ?></b>
+                    <p><?php echo $usage_stats->remains; ?></p>
+                </td>
+            </tr>
+        </table>
+        
+        <?php 
+            }else{
+        ?>
+            <?php echo __( 'Usage data could not be retrieved.', 'kargopin-for-woocommerce' ); ?>
+        <?php } ?>
+    </div>
+<?php } ?>
