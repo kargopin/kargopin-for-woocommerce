@@ -50,6 +50,7 @@ class Auth_Callback {
             $credentials = new Credentials();
             $credentials->client_id = $response['data']->code->client_id;
             $credentials->client_secret = $response['data']->code->client_secret;
+            $credentials->app_key = $response['data']->code->app_key;
             $credentials->save();
 
             // start authorize process.
