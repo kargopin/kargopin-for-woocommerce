@@ -23,6 +23,25 @@ class Auth {
 
         $_SESSION['state'] = $state = wp_generate_password( 40, false );
 
+        $query = http_build_query([
+            'state' => $state
+        ]);
+
+        return wp_redirect( API::get_base_url() . '/oauth/wp-credentials?'.$query);
+    }
+
+    /**
+     * Start Authorize process.
+     *
+     * @return void
+     */
+    public static function authorize()
+    {
+        if( !session_id() )
+            session_start();
+
+        $_SESSION['state'] = $state = wp_generate_password( 40, false );
+
         $redirect_uri = add_query_arg( 'kargopin-wc-oauth-callback', true, get_site_url() );
         
         $query = http_build_query([

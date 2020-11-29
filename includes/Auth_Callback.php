@@ -13,6 +13,44 @@ class Auth_Callback {
     function __construct()
     {
         add_action( 'init', array( $this, 'init' ) );
+        add_action( 'init', array( $this, 'callback_save_credentials' ) );
+    }
+
+    /**
+     * Callback for Save OAuth Client Codes.
+     *
+     * @return void
+     */
+    function callback_save_credentials()
+    {
+        if( ! isset( $_GET['kargopin-wc-oauth-1'] ) )
+            return;
+
+        if( !session_id() )
+            session_start();
+
+        if( !isset( $_GET['state'] ) || !( strlen( $_SESSION['state'] ) > 0 ) || $_SESSION['state'] !== $_GET['state'] )
+            die('invalid state');
+
+        $code = base64_decode( $_GET['code'] );
+
+        // get client secret and client id by code.
+        $data = [ 'code' => $code ];
+        $response = API::post('/api/v1/get-wp-client-codes', $data);
+
+        if( $response['status'] == '200' )
+        {
+            // save credentials
+            $credentials = new Credentials();
+            $credentials->client_id = $response['data']->code->client_id;
+            $credentials->client_secret = $response['data']->code->client_secret;
+            $credentials->save();
+
+            // start authorize process.
+            Auth::authorize();
+        }
+
+        exit;
     }
     
     /**
