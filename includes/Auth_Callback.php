@@ -32,6 +32,12 @@ class Auth_Callback {
         if( !isset( $_GET['state'] ) || !( strlen( $_SESSION['state'] ) > 0 ) || $_SESSION['state'] !== $_GET['state'] )
             die('invalid state');
 
+        if( isset( $_GET['error-code'] ) )
+        {
+            echo $_GET['error-code'];
+            exit;
+        }
+
         $code = base64_decode( $_GET['code'] );
 
         // get client secret and client id by code.
