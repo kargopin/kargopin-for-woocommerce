@@ -47,9 +47,7 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Install WP Tests
-      run: bash bin/install-wp-tests.sh wordpress_test wpuser wppass 127.0.0.1 latest true
+      run: bash bin/install-wp-tests.sh wordpress_test wpuser wppass 127.0.0.1:${{ job.services.mysql.ports[3306] }} latest true
       
     - name: phpunit tests
       run: ./vendor/bin/phpunit
-      env: 
-        DB_PORT: ${{ job.services.mysql.ports[3306] }}
