@@ -31,8 +31,8 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Set up MySQL
-      -uses: mirromutth/mysql-action@v1.1
-      -with:
+      uses: mirromutth/mysql-action@v1.1
+      with:
         mysql version: '5.7'
         mysql database: 'wordpress_test'
         mysql root password: 'root'
