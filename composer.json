@@ -1,4 +1,6 @@
 {
+    "name": "kargopin/kargopin-for-woocommerce",
+    "description": "Kargo Entegrasyonunun Kolay Yolu",
     "require-dev": {
         "phpunit/phpunit": "^5"
     }
