@@ -30,13 +30,25 @@ class API {
      */
     public static function post( $endpoint_url, $data=array() )
     {
+        if( in_array($endpoint_url, [ '/oauth/token', '/api/v1/get-wp-client-codes' ] ) ) {
+            $headers = [
+                'Accept'=>'application/json'
+            ];
+        }else {
+            $headers = [
+                'Accept'=>'application/json',
+                'Content-Type'=>'application/json',
+                'Authorization'=>'Bearer ' . ( new Credentials() )->get_access_token()
+            ];
+        }
+
         $response = wp_remote_post( self::get_base_url() . $endpoint_url, array(
             'method'      => 'POST',
             'timeout'     => 45,
             'redirection' => 5,
             'httpversion' => '1.0',
             'blocking'    => true,
-            'headers'     => array(),
+            'headers'     => $headers,
             'body'        => $data,
             'cookies'     => array()
             )
