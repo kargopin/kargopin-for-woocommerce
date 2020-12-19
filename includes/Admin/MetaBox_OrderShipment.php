@@ -57,13 +57,16 @@ abstract class Kargopin_OrderShipment_Meta_Box {
         global $post;
         ?>
         <div id="kargopin-create-shipment-form">
-            <div style="margin:15px 0">
-                <img style="height:25px" src="<?php echo WC_KARGOPIN_URL; ?>assets/img/logo.png" />
-            </div>
-
-            <ul class="kargopin-create-shipment-errors">
-                
-            </ul>
+            <table width="100%">
+                <tr>
+                    <td width="50%">
+                        <img style="height:25px" src="<?php echo WC_KARGOPIN_URL; ?>assets/img/logo.png" />
+                    </td>
+                    <td style="text-align:right" width="50%">
+                        <button class="button-primary kargopin-btn-create-shipment" type="button">Gönderi Oluştur</button>
+                    </td>
+                </tr>
+            </table>
 
             <div class="kargopin-hide-element" id="kargopin-spinner">
                 <div class="sk-chase">
@@ -76,21 +79,15 @@ abstract class Kargopin_OrderShipment_Meta_Box {
                 </div>
             </div>
 
-            <table style="border:none" class="widefat">
-                <?php if( wc_kargopin_is_cod_order( $post->ID ) ){ ?>
-                <tr>
-                    <th>Kapıda Ödeme Tipi:</th>
-                    <td>
-                        <select id="cod-type">
-                            <option value="">--Seçiniz--</option>
-                            <option value="cash">Nakit</option>
-                            <option value="credit-card">Kredi Kartı</option>
-                        </select>
-                    </td>
-                </tr>
-                <?php } ?>
-                <tr>
+            <table style="border:none" id="kargopin-create-shipment-form-table" class="widefat">
+                <thead>
                     <th>Ödeme:</th>
+                    <th>Kargo:</th>
+                    <th>Fatura No:</th>
+                    <th>İrsaliye No:</th>
+                    <th>Kapıda Ödeme Tipi:</th>
+                </thead>
+                <tbody>
                     <td>
                         <select id="payment-type">
                             <option value="">--Seçiniz--</option>
@@ -98,9 +95,6 @@ abstract class Kargopin_OrderShipment_Meta_Box {
                             <option value="Consignee">Alıcı Ödemeli</option>
                         </select>
                     </td>
-                </tr>
-                <tr>
-                    <th>Kargo:</th>
                     <td>
                         <select id="shipping-company">
                             <option value="">--Seçiniz--</option>
@@ -109,24 +103,27 @@ abstract class Kargopin_OrderShipment_Meta_Box {
                             <?php } ?>
                         </select>
                     </td>
-                </tr>
-                <tr>
-                    <th>Fat. No:</th>
                     <td>
                         <input type="text" id="invoice-number" />
                     </td>
-                </tr>
-                <tr>
-                    <th>İrsl. No:</th>
                     <td>
                         <input type="text" id="waybill-number" />
                     </td>
-                </tr>
-                <tr>
-                    <th></th>
-                    <td><button class="button-primary" type="button">Oluştur</button></td>
-                </tr>
+                    <?php if( wc_kargopin_is_cod_order( $post->ID ) ){ ?>
+                        <td>
+                            <select id="cod-type">
+                                <option value="">--Seçiniz--</option>
+                                <option value="cash">Nakit</option>
+                                <option value="credit-card">Kredi Kartı</option>
+                            </select>
+                        </td>
+                    <?php } ?>
+                </tbody>
             </table>
+
+            <ul class="kargopin-create-shipment-errors">
+
+            </ul>
         </div>
 
         <script>
@@ -164,6 +161,16 @@ abstract class Kargopin_OrderShipment_Meta_Box {
         </script>
 
         <style>
+            #kargopin-create-shipment-form-table {
+                margin-top:15px !important
+            }
+
+            .kargopin-btn-create-shipment {
+                background: green !important;
+                border: 1px solid green !important;
+                padding: 0px 10px !important
+            }
+
             .kargopin-hide-element {
                 display:none !important
             }
