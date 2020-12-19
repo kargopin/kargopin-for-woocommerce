@@ -14,11 +14,12 @@ abstract class Kargopin_OrderShipment_Meta_Box {
      */
     public static function add() {
         add_meta_box(
-            'kargopin_create_shipmentc',
+            'kargopin_create_shipment',
             'KargoPin',
             [ self::class, 'html' ],
             'shop_order',
-            'side'
+            'normal',
+            'high'
         );        
     }
     
