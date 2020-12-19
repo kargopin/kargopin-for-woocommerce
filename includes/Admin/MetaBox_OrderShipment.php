@@ -55,6 +55,7 @@ abstract class Kargopin_OrderShipment_Meta_Box {
      */
     private static function html_create_shipment_form() {
         global $post;
+        $is_cod_order = wc_kargopin_is_cod_order( $post->ID );
         ?>
         <div id="kargopin-create-shipment-form">
             <table width="100%">
@@ -85,7 +86,9 @@ abstract class Kargopin_OrderShipment_Meta_Box {
                     <th>Kargo:</th>
                     <th>Fatura No:</th>
                     <th>İrsaliye No:</th>
-                    <th>Kapıda Ödeme Tipi:</th>
+                    <?php if( $is_cod_order ){ ?>
+                        <th>Kapıda Ödeme Tipi:</th>
+                    <?php } ?>
                 </thead>
                 <tbody>
                     <td>
@@ -109,7 +112,7 @@ abstract class Kargopin_OrderShipment_Meta_Box {
                     <td>
                         <input type="text" id="waybill-number" />
                     </td>
-                    <?php if( wc_kargopin_is_cod_order( $post->ID ) ){ ?>
+                    <?php if( $is_cod_order ){ ?>
                         <td>
                             <select id="cod-type">
                                 <option value="">--Seçiniz--</option>
